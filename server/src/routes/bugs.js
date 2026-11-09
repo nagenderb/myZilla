@@ -1,6 +1,7 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 import { Bug, BUG_STATUSES } from "../models/Bug.js";
+import { nextBugId } from "../models/Counter.js";
 import { Product } from "../models/Product.js";
 import { User } from "../models/User.js";
 import { requireAuth } from "../middleware/auth.js";
@@ -74,6 +75,7 @@ router.post("/", async (req, res) => {
   if (qaId?.error) return res.status(400).json({ message: qaId.error });
 
   const bug = await Bug.create({
+    bugId: await nextBugId(),
     title: title.trim(),
     description: description?.trim() || "",
     product: productDoc._id,

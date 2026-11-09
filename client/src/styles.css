@@ -24,7 +24,12 @@ a { color: var(--accent); }
 button, input, select, textarea {
   font: inherit;
 }
-
+button.link {
+  background: none;
+  color: var(--accent);
+  padding: 0;
+  text-decoration: underline;
+}
 button {
   background: var(--accent);
   color: var(--accent-ink);

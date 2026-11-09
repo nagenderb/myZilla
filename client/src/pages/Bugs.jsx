@@ -22,6 +22,7 @@ export default function Bugs() {
   const [productFilter, setProductFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [form, setForm] = useState(null);
+  const [viewing, setViewing] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -171,6 +172,7 @@ export default function Bugs() {
           <tbody>
             {bugs.map((bug) => (
               <tr key={bug._id}>
+                
                 <td>
                   <strong>{bug.title}</strong>
                   {bug.description && <div className="muted clamp">{bug.description}</div>}
@@ -184,6 +186,9 @@ export default function Bugs() {
                 <td>{personName(bug.createdBy)}</td>
                 <td>{personName(bug.updatedBy)}</td>
                 <td className="actions">
+                  <button type="button" className="ghost" onClick={() => setViewing(bug)}>
+                    View
+                  </button>
                   <button type="button" className="ghost" onClick={() => startEdit(bug)}>
                     Edit
                   </button>
@@ -195,7 +200,7 @@ export default function Bugs() {
             ))}
             {!bugs.length && (
               <tr>
-                <td colSpan={8} className="muted">
+                <td colSpan={9} className="muted">
                   No bugs yet.
                 </td>
               </tr>
@@ -203,6 +208,59 @@ export default function Bugs() {
           </tbody>
         </table>
       </div>
+
+      {viewing && (
+        <div className="modal-backdrop" onClick={() => setViewing(null)}>
+          <div className="card modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Bug {viewing.bugId}</h2>
+            <p>
+              <span className="muted">Title</span>
+              <br />
+              {viewing.title}
+            </p>
+            <p>
+              <span className="muted">Description</span>
+              <br />
+              {viewing.description || "—"}
+            </p>
+            <p>
+              <span className="muted">Product</span>
+              <br />
+              {viewing.product?.name || "—"}
+            </p>
+            <p>
+              <span className="muted">Status</span>
+              <br />
+              {viewing.status}
+            </p>
+            <p>
+              <span className="muted">Developer</span>
+              <br />
+              {personName(viewing.developer)}
+            </p>
+            <p>
+              <span className="muted">QA</span>
+              <br />
+              {personName(viewing.qa)}
+            </p>
+            <p>
+              <span className="muted">Created by</span>
+              <br />
+              {personName(viewing.createdBy)}
+            </p>
+            <p>
+              <span className="muted">Updated by</span>
+              <br />
+              {personName(viewing.updatedBy)}
+            </p>
+            <div className="row">
+              <button type="button" className="ghost" onClick={() => setViewing(null)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {form && (
         <div className="modal-backdrop" onClick={() => setForm(null)}>

@@ -4,6 +4,7 @@ export const BUG_STATUSES = ["Open", "In Progress", "Resolved", "Closed"];
 
 const bugSchema = new mongoose.Schema(
   {
+    bugId: { type: Number, required: true, unique: true, sparse: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, default: "", trim: true },
     product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },

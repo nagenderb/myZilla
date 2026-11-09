@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import productRoutes from "./routes/products.js";
 import bugRoutes from "./routes/bugs.js";
+import { backfillBugIds } from "./bugIds.js";
 
 const app = express();
 app.use(cors());
@@ -28,7 +29,8 @@ app.use((err, _req, res, _next) => {
 const port = process.env.PORT || 5000;
 
 connectDb()
-  .then(() => {
+  .then(async () => {
+    await backfillBugIds();
     app.listen(port, () => {
       console.log(`Myzilla API listening on ${port}`);
     });
