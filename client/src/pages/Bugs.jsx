@@ -186,6 +186,9 @@ export default function Bugs() {
                 <td>{personName(bug.createdBy)}</td>
                 <td>{personName(bug.updatedBy)}</td>
                 <td className="actions">
+                  <button type="button" className="ghost" onClick={() => setViewing(bug)}>
+                    View
+                  </button>
                   <button type="button" className="ghost" onClick={() => startEdit(bug)}>
                     Edit
                   </button>
